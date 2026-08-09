@@ -1,0 +1,39 @@
+# ── Model file (too large for git; download from Google Drive / DVC) ──────────
+model.joblib
+
+# ── Environment variables (NEVER commit credentials) ─────────────────────────
+.env
+.env.local
+.env.production
+
+# ── Python cache ─────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+.pytest_cache/
+
+# ── Virtual environments ──────────────────────────────────────────────────────
+venv/
+.venv/
+env/
+.env/
+
+# ── Jupyter artefacts ─────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ── IDE / OS ──────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ── Build artefacts ───────────────────────────────────────────────────────────
+dist/
+build/
+*.egg-info/
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+logs/
