@@ -39,13 +39,25 @@ if DATABASE_URL:
             DATABASE_URL,
             pool_pre_ping=True,       # reconnect on stale connections
             pool_recycle=3600,        # recycle connections every hour
-            connect_args={"connect_timeout": 10},
+            connect_args={
+                "connect_timeout": 10,    # stop waiting after 10 seconds
+                "ssl": {
+                    "check_hostname": False,  # required for Aiven/PyMySQL SSL connection
+                },
+            },
         )
-        _SessionLocal = sessionmaker(bind=_engine, autocommit=False, autoflush=False)
+        _SessionLocal = sessionmaker(
+            bind=_engine,
+            autocommit=False,
+            autoflush=False
+        )
         _DB_AVAILABLE = True
         logger.info("Database engine created from DATABASE_URL.")
     except Exception as exc:
-        logger.warning(f"Failed to create database engine: {exc}. DB persistence disabled.")
+        logger.warning(
+            f"Failed to create database engine: {exc}. "
+            "DB persistence disabled."
+        )
 else:
     logger.warning("DATABASE_URL not set. Database persistence is disabled.")
 
@@ -142,10 +154,8 @@ def get_db():
     except Exception as exc:
         session.rollback()
         logger.error(f"DB session error: {exc}")
-        yield None
     finally:
         session.close()
-
 
 # ── Write helpers ─────────────────────────────────────────────────────────────
 
