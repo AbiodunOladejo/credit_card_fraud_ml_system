@@ -28,8 +28,8 @@ import plotly.express as px
 import streamlit as st
 
 # ── Config ────────────────────────────────────────────────────────────────────
-API_URL      = os.getenv("API_URL", "http://localhost:8000")
-DATABASE_URL = os.getenv("DATABASE_URL", "")
+API_URL = st.secrets.get("API_URL", os.getenv("API_URL", "http://localhost:8000"))
+DATABASE_URL = st.secrets.get("DATABASE_URL", os.getenv("DATABASE_URL", ""))
 
 st.set_page_config(
     page_title="Fraud Detection Dashboard",
@@ -239,9 +239,9 @@ def load_live_data() -> tuple[pd.DataFrame, bool]:
         if df.empty:
             return _demo_predictions(), False
         return df, True
-    except Exception:
+    except Exception as e:
+        st.error(f"Database connection error: {e}")
         return _demo_predictions(), False
-
 
 # ══════════════════════════════════════════════════════════════════════════════
 # MAIN APP
